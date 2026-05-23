@@ -2,57 +2,50 @@ import os
 import sys
 import time
 import requests
+import subprocess
 
 def clear_screen():
     os.system('clear' if os.name == 'posix' else 'cls')
 
 def banner():
     clear_screen()
-    # Stylist Header
-    print("\033[1;35m" + "="*50)
-    print(r"""  ______   _    _   _____    _____   _____ _____ 
- |  ____| / \  | | |  __ \  |  __ \ |_   _|_   _|
- | |__   / _ \ | | | |  | | | |  | |  | |   | |  
- |  __| / ___ \| | | |  | | | |  | |  | |   | |  
- | |   /_/   \_\_| | |__| | | |__| | _| |_ _| |_ 
- |_|               |_____/  |_____/ |_____|_____|""")
-    print("\n" + " "*17 + "FAHDII TOOLS")
-    print("="*50 + "\033[0m")
-    print("\033[1;36m" + "        >>> TG TO NUMBER INFO TOOL <<<" + "\033[0m")
-    print("\033[1;32m" + "="*50 + "\033[0m\n")
+    # New Futuristic Premium Design Banner
+    print("\033[1;36m" + "⚡ " + "="*46 + " ⚡")
+    print(r"""\033[1;35m    _______ ___   _   _ ______  _____ _____ 
+   |  _____/   \ | | | |  __  \|_   _|_   _|
+   | |__  / _ \ \| |_| | |  |  | | |   | |  
+   |  __|/ ___ \ \  _  | |  |  | | |   | |  
+   | |  /_/     \_\_| |_| |__|  |_| |_ _| |_ 
+   |_|                  |______/|_____|_____|""")
+    print("\033[1;36m" + "⚡ " + "="*46 + " ⚡\033[0m")
+    print(" "*16 + "\033[1;32m[ DEVELOPED BY FAHAD ]\033[0m\n")
 
-def first_time_setup():
-    banner()
-    print("\033[1;33m[!] WELCOME TO FAHDII TOOLS SETUP [!]\033[0m\n")
-    print("\033[1;37m1. Join WhatsApp Channel:\033[0m https://whatsapp.com/channel/0029VbCWPeh6RGJ8b9vJJv2j")
-    print("\033[1;37m2. Usage:\033[0m Enter Telegram Username with or without '@'\n")
-    print("\033[1;31mNote: Please make sure you have joined the channel.\033[0m")
-    input("\n\033[1;32mPress ENTER to finish setup and open tool...\033[0m")
-    
-    # Setup marker file taake har baar setup open na ho
-    with open(".setup_done", "w") as f:
-        f.write("done")
+def open_whatsapp():
+    channel_url = "https://whatsapp.com/channel/0029VbCWPeh6RGJ8b9vJJv2j"
+    print("\n\033[1;35m[*] Connecting to secure link redirector...\033[0m")
+    time.sleep(1)
+    print("\033[1;32m[+] Opening WhatsApp Channel in Browser!\033[0m")
+    time.sleep(0.5)
+    # Background execution without showing link on Termux terminal
+    subprocess.run(["termux-open", channel_url], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-def main():
-    # Agar setup file nahi hai to pehle setup chalega
-    if not os.path.exists(".setup_done"):
-        first_time_setup()
-        
+def info_tool():
     banner()
+    print("\033[1;33m┌──────────────────────────────────────────────┐")
+    print("│         >>> TG TO NUMBER INFO TOOL <<<       │")
+    print("└──────────────────────────────────────────────┘\033[0m\n")
     
-    # User input
     tg_id = input("\033[1;37mEnter Telegram Username (e.g. @techbyfahdii): \033[0m").strip()
     
     if not tg_id:
-        print("\033[1;31m[-] Invalid Input!\033[0m")
+        print("\n\033[1;31m[-] Invalid Input!\033[0m")
         return
 
-    # Auto add @ if missing
     if not tg_id.startswith('@'):
         tg_id = '@' + tg_id
 
-    print("\n\033[1;33m[*] Fetching details from API...\033[0m")
-    time.sleep(1)
+    print("\n\033[1;35m[*] Fetching details from API server...\033[0m")
+    time.sleep(1.5)
 
     url = f"https://wasifali-telegram-id-to-number.vercel.app/api?userid={tg_id}"
     
@@ -61,20 +54,39 @@ def main():
         data = response.json()
         
         if data.get("success") == True or data.get("success") == "true":
-            print("\n\033[1;32m[+] DATA FOUND SUCCESSFULLY!\033[0m\n")
-            print(f"\033[1;36mUser ID     :\033[0m {data.get('user_id')}")
-            print(f"\033[1;36mCountry     :\033[0m {data.get('country')}")
-            print(f"\033[1;36mCountry Code:\033[0m {data.get('country_code')}")
-            print(f"\033[1;36mPhone Number:\033[0m {data.get('country_code')}{data.get('number')}")
+            print("\n\033[1;32m[+] DATA RETRIEVED SUCCESSFULLY!\033[0m\n")
+            print(f"\033[1;36m 🌐 User ID      :\033[0m {data.get('user_id')}")
+            print(f"\033[1;36m 📍 Country      :\033[0m {data.get('country')}")
+            print(f"\033[1;36m 🔑 Country Code :\033[0m {data.get('country_code')}")
+            print(f"\033[1;36m 📞 Phone Number :\033[0m {data.get('country_code')}{data.get('number')}")
         else:
             print("\n\033[1;31m[-] No details found or invalid Username!\033[0m")
             
     except requests.exceptions.RequestException:
-        print("\n\033[1;31m[-] Connection Error! Check your internet.\033[0m")
+        print("\n\033[1;31m[-] Connection Error! Please check your network.\033[0m")
     except ValueError:
-        print("\n\033[1;31m[-] API Error or Temporary down.\033[0m")
+        print("\n\033[1;31m[-] API Response Error or Server Maintenance.\033[0m")
 
-    print("\n\033[1;32m="*50 + "\033[0m")
+    print("\n\033[1;36m" + "="*50 + "\033[0m")
+    print("\033[1;32mteach by Fardeen tools\033[0m") # Signature added
+
+def main():
+    banner()
+    # Cyberpunk style box interface
+    print("\033[1;34m┌──────────────────────────────────────────────┐")
+    print("\033[1;37m│  \033[1;32m[1]\033[1;37m JOIN CHANNEL (Direct Open Links)        │")
+    print("\033[1;37m│  \033[1;32m[2]\033[1;37m TG TO NUMBER INFO SYSTEM                │")
+    print("\033[1;34m└──────────────────────────────────────────────┘\033[0m\n")
+    
+    choice = input("\033[1;33m⚡ Reply Choice (1 or 2): \033[0m").strip()
+    
+    if choice == "1":
+        open_whatsapp()
+    elif choice == "2":
+        info_tool()
+    else:
+        print("\n\033[1;31m[-] Invalid Choice! System shutting down.\033[0m")
 
 if __name__ == "__main__":
     main()
+	
